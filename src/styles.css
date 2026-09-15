@@ -1,0 +1,246 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Vishesh & Gauravi — design system derived from the wedding monogram.
+ * Palette: cream paper, terracotta red kurta, teal-blue kurta, marigold,
+ * sage leaf, dusty pink, soft lavender, warm brown ink line-art.
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+
+  /* monogram-derived accents */
+  --color-wedding-primary: var(--wedding-primary);
+  --color-wedding-secondary: var(--wedding-secondary);
+  --color-wedding-accent: var(--wedding-accent);
+  --color-wedding-background: var(--wedding-background);
+  --color-wedding-surface: var(--wedding-surface);
+  --color-wedding-text: var(--wedding-text);
+  --color-wedding-border: var(--wedding-border);
+  --color-leaf: var(--leaf);
+  --color-blossom: var(--blossom);
+  --color-lilac: var(--lilac);
+  --color-haldi: var(--haldi);
+  --color-rani: var(--rani);
+  --color-marigold: var(--marigold);
+  --color-turquoise: var(--turquoise);
+  --color-deep-red: var(--deep-red);
+
+  --font-display: "Baloo 2", ui-rounded, system-ui, sans-serif;
+  --font-body: "Mulish", ui-sans-serif, system-ui, sans-serif;
+  --font-script: "Caveat", ui-serif, cursive;
+}
+
+:root {
+  --radius: 1rem;
+
+  /* monogram tokens */
+  --wedding-background: oklch(0.952 0.035 78);
+  --wedding-surface: oklch(0.985 0.012 92);
+  --wedding-primary: oklch(0.548 0.147 32);
+  --wedding-secondary: oklch(0.558 0.073 228);
+  --wedding-accent: oklch(0.784 0.129 78);
+  --wedding-text: oklch(0.34 0.038 58);
+  --wedding-border: oklch(0.855 0.036 85);
+  --leaf: oklch(0.615 0.062 132);
+  --blossom: oklch(0.706 0.101 12);
+  --lilac: oklch(0.751 0.062 290);
+  --haldi: oklch(0.826 0.148 82);
+  --rani: oklch(0.606 0.204 358);
+  --marigold: oklch(0.752 0.176 62);
+  --turquoise: oklch(0.652 0.098 205);
+  --deep-red: oklch(0.472 0.168 27);
+
+  /* shadcn mapping */
+  --background: var(--wedding-background);
+  --foreground: var(--wedding-text);
+  --card: var(--wedding-surface);
+  --card-foreground: var(--wedding-text);
+  --popover: var(--wedding-surface);
+  --popover-foreground: var(--wedding-text);
+  --primary: var(--wedding-primary);
+  --primary-foreground: oklch(0.985 0.012 92);
+  --secondary: var(--wedding-secondary);
+  --secondary-foreground: oklch(0.985 0.012 92);
+  --muted: oklch(0.93 0.023 88);
+  --muted-foreground: oklch(0.5 0.03 60);
+  --accent: var(--wedding-accent);
+  --accent-foreground: oklch(0.32 0.05 60);
+  --destructive: oklch(0.55 0.18 28);
+  --destructive-foreground: oklch(0.985 0.012 92);
+  --border: var(--wedding-border);
+  --input: var(--wedding-border);
+  --ring: var(--wedding-primary);
+
+  --shadow-paper: 0 18px 40px -24px color-mix(in oklab, var(--wedding-text) 45%, transparent);
+  --shadow-lift: 0 26px 60px -30px color-mix(in oklab, var(--wedding-primary) 55%, transparent);
+  --gradient-festive: linear-gradient(
+    135deg,
+    color-mix(in oklab, var(--wedding-primary) 92%, transparent),
+    color-mix(in oklab, var(--wedding-accent) 88%, transparent)
+  );
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+
+    background-image:
+      radial-gradient(
+        circle at 12% 8%,
+        color-mix(in oklab, var(--haldi) 16%, transparent),
+        transparent 45%
+      ),
+      radial-gradient(
+        circle at 88% 22%,
+        color-mix(in oklab, var(--turquoise) 16%, transparent),
+        transparent 42%
+      ),
+      radial-gradient(
+        circle at 20% 70%,
+        color-mix(in oklab, var(--rani) 12%, transparent),
+        transparent 45%
+      ),
+      radial-gradient(
+        circle at 92% 82%,
+        color-mix(in oklab, var(--marigold) 16%, transparent),
+        transparent 45%
+      );
+    background-attachment: fixed;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--wedding-primary);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
+
+@utility paper-card {
+  background: var(--wedding-surface);
+  border: 1.5px solid var(--wedding-border);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-paper);
+}
+
+@utility festive-band {
+  background:
+    linear-gradient(
+      90deg,
+      color-mix(in oklab, var(--rani) 18%, transparent),
+      color-mix(in oklab, var(--marigold) 22%, transparent),
+      color-mix(in oklab, var(--turquoise) 18%, transparent)
+    );
+}
+
+@utility ink-frame {
+  position: relative;
+  border: 1.5px solid var(--wedding-border);
+  border-radius: var(--radius-2xl);
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 6px;
+    border: 1px dashed color-mix(in oklab, var(--wedding-primary) 35%, transparent);
+    border-radius: calc(var(--radius-2xl) - 6px);
+    pointer-events: none;
+  }
+}
+
+@utility script-note {
+  font-family: var(--font-script);
+  color: var(--wedding-primary);
+  font-size: 1.35rem;
+  line-height: 1.2;
+}
+
+@utility eyebrow {
+  font-family: var(--font-body);
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: color-mix(in oklab, var(--wedding-text) 65%, transparent);
+}
+
+@keyframes sway {
+  0%,
+  100% {
+    transform: rotate(-1.5deg) translateY(0);
+  }
+  50% {
+    transform: rotate(1.5deg) translateY(-6px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
