@@ -4,7 +4,8 @@ import { ganpatiArt, weddingConfig } from "@/config/config";
 import startScreenAsset from "@/assets/characters/start-screen.png";
 
 const startArt = startScreenAsset;
-import { FloralCorner, MehendiLine } from "@/components/DecorativeElements";
+import { MehendiLine } from "@/components/DecorativeElements";
+import WeddingBackground from "@/components/WeddingBackground";
 
 export default function StartScreen({ onEnter }: { onEnter: () => void }) {
   const reduce = useReducedMotion();
@@ -26,11 +27,7 @@ export default function StartScreen({ onEnter }: { onEnter: () => void }) {
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       className="fixed inset-0 z-[80] flex min-h-[100svh] flex-col items-center justify-center overflow-hidden bg-wedding-background px-5 py-8 text-center"
     >
-      <FloralCorner className="pointer-events-none absolute -left-4 top-6 h-24 w-24 text-leaf/50 sm:h-36 sm:w-36" />
-      <FloralCorner
-        flip
-        className="pointer-events-none absolute -right-4 top-6 h-24 w-24 text-blossom/45 sm:h-36 sm:w-36"
-      />
+      <WeddingBackground welcome />
 
       <motion.img
         src={ganpatiArt}

@@ -7,12 +7,14 @@ import Timeline from "@/components/Timeline";
 import Venue from "@/components/Venue";
 import RSVP from "@/components/RSVP";
 import TriviaGame from "@/components/TriviaGame";
+import WeddingDuty from "@/components/WeddingDuty";
 import Footer from "@/components/Footer";
 import FallingFlowers from "@/components/FallingFlowers";
 import ScrollTrail from "@/components/ScrollTrail";
 import StartScreen from "@/components/StartScreen";
 
 import MusicPlayer from "@/components/MusicPlayer";
+import WeddingBackground from "@/components/WeddingBackground";
 import { weddingConfig } from "@/config/config";
 
 
@@ -66,6 +68,7 @@ function Index() {
 
   return (
     <>
+      <WeddingBackground />
       <AnimatePresence>
         {!entered && <StartScreen onEnter={() => setEntered(true)} />}
       </AnimatePresence>
@@ -90,6 +93,7 @@ function Index() {
           <Timeline />
           <Venue />
           <TriviaGame />
+          <WeddingDuty />
           <RSVP />
         </main>
         <Footer />

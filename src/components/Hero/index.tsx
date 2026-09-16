@@ -1,7 +1,7 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { ganpatiArt, weddingConfig } from "@/config/config";
-import { FloralCorner, Marigold, MehendiLine } from "@/components/DecorativeElements";
+import { Marigold, MehendiLine } from "@/components/DecorativeElements";
 
 export default function Hero() {
   const reduce = useReducedMotion();
@@ -16,12 +16,6 @@ export default function Hero() {
       id="home"
       className="relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden px-4 pt-14 pb-16 text-center"
     >
-      <FloralCorner className="pointer-events-none absolute -left-4 top-16 h-28 w-28 text-leaf/60 sm:h-40 sm:w-40" />
-      <FloralCorner
-        flip
-        className="pointer-events-none absolute -right-4 top-16 h-28 w-28 text-blossom/50 sm:h-40 sm:w-40"
-      />
-
       <motion.div
         initial={{ opacity: 0, y: reduce ? 0 : -14, scale: reduce ? 1 : 0.92 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -51,7 +45,7 @@ export default function Hero() {
         <img
           src={weddingConfig.logo}
           alt={`${weddingConfig.brideName} and ${weddingConfig.groomName} wedding monogram`}
-          className="w-full rounded-[2rem] border border-wedding-border bg-wedding-surface object-contain shadow-[var(--shadow-lift)]"
+          className="w-full object-contain"
           width={1024}
           height={1024}
         />

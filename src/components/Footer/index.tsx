@@ -10,7 +10,7 @@ export default function Footer() {
           src={weddingConfig.logo}
           alt={`${weddingConfig.brideName} and ${weddingConfig.groomName} monogram`}
           loading="lazy"
-          className="mx-auto h-28 w-28 rounded-full border border-wedding-border object-cover"
+          className="mx-auto h-28 w-28 object-contain"
         />
         <h2 className="mt-4 font-display text-2xl text-wedding-primary">
           {weddingConfig.groomName} <span className="text-wedding-secondary">&</span>{" "}

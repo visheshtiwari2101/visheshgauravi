@@ -135,28 +135,7 @@
     margin: 0;
     padding: 0;
 
-    background-image:
-      radial-gradient(
-        circle at 12% 8%,
-        color-mix(in oklab, var(--haldi) 16%, transparent),
-        transparent 45%
-      ),
-      radial-gradient(
-        circle at 88% 22%,
-        color-mix(in oklab, var(--turquoise) 16%, transparent),
-        transparent 42%
-      ),
-      radial-gradient(
-        circle at 20% 70%,
-        color-mix(in oklab, var(--rani) 12%, transparent),
-        transparent 45%
-      ),
-      radial-gradient(
-        circle at 92% 82%,
-        color-mix(in oklab, var(--marigold) 16%, transparent),
-        transparent 45%
-      );
-    background-attachment: fixed;
+    isolation: isolate;
   }
 
   h1,
@@ -232,6 +211,89 @@
   }
 }
 
+/* Sunrise garden: bounded, transform-only layers behind all existing content. */
+.wedding-scenery {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  contain: strict;
+  background: var(--wedding-background);
+}
+
+.wedding-scenery__light,
+.wedding-scenery__clouds,
+.wedding-scenery__garden,
+.wedding-scenery__foliage {
+  position: absolute;
+  inset: 0 0 -440px;
+  pointer-events: none;
+}
+
+.wedding-scenery--welcome { position: absolute; }
+
+.wedding-scenery__light {
+  background:
+    radial-gradient(ellipse at 78% 19%, #ffecc3 0%, transparent 38%),
+    linear-gradient(175deg, #e5cbc7 0%, #f3cdb2 22%, #fae8c6 43%, #d6dfcb 70%, #c0cfbc);
+}
+
+.wedding-scenery__sun {
+  position: absolute;
+  top: 12%;
+  right: 9%;
+  width: clamp(100px, 13vw, 190px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: linear-gradient(#fff6d5, #ffe6ae);
+  box-shadow: 0 0 70px 35px #ffedc059;
+  opacity: .85;
+}
+
+.wedding-scenery__garden {
+  opacity: .6;
+}
+
+.wedding-scenery__clouds svg,
+.wedding-scenery__garden svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Light through the center keeps all original text and UI colors readable. */
+.wedding-scenery__veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, #fff8eac9 32%, #fff8eae6 50%, #fff8eac9 68%, transparent);
+  pointer-events: none;
+}
+
+.wedding-scenery__branch {
+  position: absolute;
+  width: clamp(170px, 24vw, 370px);
+  height: calc(100% + 80px);
+  color: var(--leaf);
+  opacity: .78;
+}
+
+.wedding-scenery__branch--left { left: -45px; top: -30px; }
+.wedding-scenery__branch--right { right: -65px; top: 50px; transform: scale(-1, -1); }
+
+@media (max-width: 640px) {
+  .wedding-scenery__branch { width: 200px; opacity: .58; }
+  .wedding-scenery__branch--left { left: -90px; }
+  .wedding-scenery__branch--right { right: -100px; }
+  .wedding-scenery__sun { right: 3%; top: 8%; }
+  .wedding-scenery__veil {
+    background: linear-gradient(90deg, #fff8ea26, #fff8eab3 30%, #fff8eacc 50%, #fff8eab3 70%, #fff8ea26);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wedding-scenery > div { transform: none !important; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -244,3 +306,27 @@
     transition-duration: 0.001ms !important;
   }
 }
+
+/* Shared affordance only: no layout or transform changes to existing CTAs. */
+button:not(:disabled), a[class*="rounded"][class*="bg-"] {
+  cursor: pointer;
+  transition: box-shadow .2s ease, filter .2s ease;
+}
+button:not(:disabled):hover, a[class*="rounded"][class*="bg-"]:hover {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--wedding-accent) 22%, transparent), 0 4px 14px color-mix(in srgb, var(--wedding-primary) 12%, transparent);
+  filter: brightness(1.05);
+}
+button:not(:disabled):active, a[class*="rounded"][class*="bg-"]:active { filter: brightness(.94); }
+button:focus-visible, a:focus-visible { outline: 2px solid var(--wedding-primary); outline-offset: 4px; }
+@media (prefers-reduced-motion: no-preference) {
+  button:not(:disabled), a[class*="rounded"][class*="bg-"] { animation: wedding-cta-glow 5s ease-in-out infinite; }
+  .dance-uncle .dance-body { transform-origin: 360px 1150px; animation: uncle-beat .8s ease-in-out infinite; }
+  .dance-uncle .dance-detail { transform-origin: 100px 195px; animation: bulb-wrist .7s ease-in-out infinite; }
+  .dance-aunty .dance-body { transform-origin: 950px 1050px; animation: aunty-bounce .9s ease-in-out infinite; }
+  .dance-aunty .dance-detail { transform-origin: 960px 350px; animation: buffet-scan 3.2s ease-in-out infinite; }
+}
+@keyframes wedding-cta-glow { 0%, 75%, 100% { box-shadow: 0 0 0 0 transparent; } 86% { box-shadow: 0 0 12px 2px color-mix(in srgb, var(--wedding-accent) 25%, transparent); } }
+@keyframes uncle-beat { 50% { transform: translateY(-20px) rotate(2deg); } }
+@keyframes bulb-wrist { 0%,100% { transform: rotate(-18deg) scaleX(.9); } 50% { transform: rotate(22deg) scaleX(1); } }
+@keyframes aunty-bounce { 25% { transform: translateY(-10px) rotate(-1.5deg); } 75% { transform: translateY(-10px) rotate(1.5deg); } }
+@keyframes buffet-scan { 0%,100% { transform: rotate(-5deg) translateX(-7px); } 45%,65% { transform: rotate(6deg) translateX(10px) skewY(-2deg); } }

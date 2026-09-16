@@ -1,4 +1,6 @@
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
+import { useState } from "react";
+import EventInteraction from "@/components/EventInteraction";
 import type { SceneType } from "@/config/config";
 import CharacterScene from "@/components/CharacterScene";
 import { MehendiLine, Sprig, MarigoldGarland } from "@/components/DecorativeElements";
@@ -14,10 +16,9 @@ export type TimelineEventProps = {
 
 /** Each ceremony gets its own tint so the scenes feel different but related. */
 const tint: Record<SceneType, string> = {
-  roka: "from-rani/16 to-transparent",
   puja: "from-wedding-accent/18 to-transparent",
   haldi: "from-haldi/28 to-transparent",
-  mehendi: "from-leaf/22 to-transparent",
+  engagement: "from-leaf/22 to-transparent",
   baraat: "from-marigold/28 to-transparent",
   reception: "from-wedding-secondary/18 to-transparent",
   phere: "from-wedding-primary/18 to-transparent",
@@ -37,6 +38,9 @@ export default function TimelineEvent({
   scene,
 }: TimelineEventProps) {
   const flipped = index % 2 === 1;
+  const [turmeric, setTurmeric] = useState(0);
+  const [reaction, setReaction] = useState(0);
+  const reduce = useReducedMotion();
 
   return (
     <motion.li
@@ -54,12 +58,15 @@ export default function TimelineEvent({
             flipped ? "md:flex-row-reverse" : "md:flex-row"
           }`}
         >
-          <div className="relative flex w-full justify-center md:w-2/5">
+          <motion.div className="relative flex w-full justify-center md:w-2/5"
+            animate={reaction && !reduce ? { y: [0, -6, 0], rotate: [0, 1, -1, 0] } : { y: 0 }}
+            transition={{ duration: .45 }} key={reaction}>
             <CharacterScene
               type={scene}
+              {...(scene === "haldi" ? { turmeric } : {})}
               className="h-44 w-auto drop-shadow-[0_16px_24px_rgba(74,55,40,0.18)] sm:h-56 md:h-64"
             />
-          </div>
+          </motion.div>
 
           <div className={`w-full md:w-3/5 ${flipped ? "md:text-right" : ""}`}>
             <div
@@ -78,14 +85,19 @@ export default function TimelineEvent({
               <span className={flipped ? "md:float-right" : ""}>{title}</span>
             </h3>
             <div className="clear-both" />
-            <MehendiLine
+            {scene === "engagement" ? <svg viewBox="0 0 160 16" aria-hidden="true" className={`mx-auto mt-2 h-3 w-40 text-wedding-accent md:mx-0 ${flipped ? "md:ml-auto" : ""}`}>
+              <path d="M0 8h61m38 0h61" stroke="currentColor" fill="none" />
+              <circle cx="75" cy="8" r="6" stroke="currentColor" fill="none" />
+              <circle cx="85" cy="8" r="6" stroke="currentColor" fill="none" />
+            </svg> : <MehendiLine
               className={`mx-auto mt-2 h-3 w-40 text-wedding-accent md:mx-0 ${
                 flipped ? "md:ml-auto" : ""
               }`}
-            />
+            />}
             <p className="mt-3 text-center text-sm leading-relaxed text-wedding-text/80 sm:text-base md:text-left">
               <span className={flipped ? "md:block md:text-right" : ""}>{description}</span>
             </p>
+            <EventInteraction scene={scene} turmeric={turmeric} onTurmeric={setTurmeric} onReact={() => setReaction(value => value + 1)} />
           </div>
         </div>
 

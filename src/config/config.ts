@@ -1,9 +1,8 @@
 import monogramAsset from "@/assets/monogram/monogram.png";
 import coupleAsset from "@/assets/characters/couple.png";
-import rokaAsset from "@/assets/characters/roka.png";
 import pujaAsset from "@/assets/characters/puja.png";
 import haldiAsset from "@/assets/characters/haldi.png";
-import mehendiAsset from "@/assets/characters/mehendi.png";
+import engagementAsset from "@/assets/characters/ring-engagement.png";
 import baraatAsset from "@/assets/characters/baraat.png";
 import receptionAsset from "@/assets/characters/reception.png";
 import phereAsset from "@/assets/characters/phere.png";
@@ -15,10 +14,9 @@ import finaleArt from "@/assets/characters/finale.png";
 import ganpatiAsset from "@/assets/illustrations/ganpati.png";
 
 export type SceneType =
-  | "roka"
   | "puja"
   | "haldi"
-  | "mehendi"
+  | "engagement"
   | "baraat"
   | "reception"
   | "phere"
@@ -29,10 +27,9 @@ export type SceneType =
   | "finale";
 
 export const sceneArt: Record<SceneType, string> = {
-  roka: rokaAsset,
   puja: pujaAsset,
   haldi: haldiAsset,
-  mehendi: mehendiAsset,
+  engagement: engagementAsset,
   baraat: baraatAsset,
   reception: receptionAsset,
   phere: phereAsset,
@@ -46,10 +43,9 @@ export const sceneArt: Record<SceneType, string> = {
 export const ganpatiArt = ganpatiAsset;
 
 export const sceneAlt: Record<SceneType, string> = {
-  roka: "Illustration of Vishesh placing a ring on Gauravi's finger at the Roka",
   puja: "Illustration of Vishesh and Gauravi seated with folded hands at the Ganesh Pujan",
   haldi: "Illustration of Vishesh and Gauravi in yellow outfits laughing during the Haldi",
-  mehendi: "Illustration of Gauravi showing her henna-covered palms to a delighted Vishesh",
+  engagement: "Illustration of Vishesh and Gauravi exchanging rings at their Ring Engagement",
   baraat: "Illustration of Vishesh and Gauravi dancing together with marigold garlands during the Baraat",
   reception: "Illustration of Vishesh and Gauravi greeting guests at the Reception",
   phere: "Illustration of Vishesh and Gauravi holding hands at the wedding Phere",
@@ -94,14 +90,6 @@ export const weddingConfig = {
   timeline: [
     {
       date: "7 December 2026",
-      time: "9:00 AM",
-      title: "Roka",
-      description: "Where it all becomes official — one ring, two families, zero doubts.",
-      image: "",
-      characterScene: "roka" as SceneType,
-    },
-    {
-      date: "7 December 2026",
       time: "11:00 AM",
       title: "Ganesh Pujan & Mandap Pujan",
       description: "First invitation goes to Bappa. Everything else follows.",
@@ -119,10 +107,10 @@ export const weddingConfig = {
     {
       date: "7 December 2026",
       time: "6:00 PM",
-      title: "Mehendi",
-      description: "Hidden initials, henna spirals and one very impressed groom.",
+      title: "Ring Engagement",
+      description: "A little ring, a big yes, and two families trying not to tear up.",
       image: "",
-      characterScene: "mehendi" as SceneType,
+      characterScene: "engagement" as SceneType,
     },
     {
       date: "8 December 2026",

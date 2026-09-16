@@ -15,7 +15,7 @@ export default function Timeline() {
           {weddingConfig.timeline.map((e, i) => (
             <TimelineEvent
               key={e.title}
-              index={i}
+              index={i + 1}
               date={e.date}
               time={e.time}
               title={e.title}
