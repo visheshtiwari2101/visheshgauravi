@@ -330,3 +330,84 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--wedding-primary
 @keyframes bulb-wrist { 0%,100% { transform: rotate(-18deg) scaleX(.9); } 50% { transform: rotate(22deg) scaleX(1); } }
 @keyframes aunty-bounce { 25% { transform: translateY(-10px) rotate(-1.5deg); } 75% { transform: translateY(-10px) rotate(1.5deg); } }
 @keyframes buffet-scan { 0%,100% { transform: rotate(-5deg) translateX(-7px); } 45%,65% { transform: rotate(6deg) translateX(10px) skewY(-2deg); } }
+/* Discoverability treatment is restricted to function mini-interactions. */
+.function-play-zone {
+  position: relative;
+  isolation: isolate;
+  margin-top: 1.25rem;
+  padding: 1rem;
+  border: 1px solid #c89350;
+  border-radius: 1.25rem;
+  background: radial-gradient(ellipse at top right, #efd09a55, transparent 65%), linear-gradient(135deg, #fffdf5, #fff2dd);
+  box-shadow: inset 0 0 0 4px #fffaf0, inset 0 0 0 5px #d5b47b66, 0 6px 18px #70412917;
+}
+.function-play-label {
+  display: table;
+  margin: 0 auto .75rem;
+  padding: .3rem .7rem;
+  border: 1px solid #c8935070;
+  border-radius: 999px;
+  background: #f7e7cb;
+  color: #813a29;
+  font-size: .65rem;
+  font-weight: 800;
+  letter-spacing: .12em;
+}
+.function-play-cue { margin: -.15rem 0 .5rem; font-size: .75rem; font-weight: 700; color: #813a29; text-align: center; }
+.function-play-zone button {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 48px;
+  border: 1px solid #9d4534;
+  background: linear-gradient(135deg, #ad4e38, #813526) !important;
+  color: #fff9e9 !important;
+  box-shadow: inset 0 1px 0 #ffdfb455, 0 3px 0 #632c22, 0 5px 10px #81352625;
+  animation: none;
+  transition: filter .2s, scale .2s;
+}
+.function-play-zone button::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(110deg, transparent 25%, #fff4d859 48%, transparent 70%);
+  transform: translateX(-150%);
+}
+.function-play-zone button[aria-pressed="true"] { outline: 2px solid #ba8835; outline-offset: 3px; }
+.function-play-zone button:hover { filter: brightness(1.12); scale: 1.025; }
+.function-play-zone button:active { scale: .97; }
+.function-play-zone button:disabled { opacity: .7; cursor: wait; }
+.function-play-zone[data-function="reception"] button { padding-inline: .7rem; white-space: nowrap; }
+.function-play-zone[data-function="phere"] button { min-height: 44px; }
+.function-play-zone[data-function="engagement"] button svg { color: #fff4d8; }
+.function-play-zone[data-function="engagement"] button svg path:first-child { stroke: #ffebc4; fill: #fff0cb; fill-opacity: .2; }
+.function-play-zone input[type="range"] {
+  border: 1px solid #c89350;
+  border-radius: 999px;
+  padding-inline: .5rem;
+  background: #f2d295;
+  accent-color: #a54a31;
+  box-shadow: 0 3px 10px #b8813030;
+}
+.function-play-sparkles { position: absolute; inset: 0; pointer-events: none; z-index: -1; }
+.function-play-sparkles i { position: absolute; color: #b9883e; font-style: normal; opacity: .6; }
+.function-play-sparkles i:nth-child(1) { top: .4rem; left: .5rem; }
+.function-play-sparkles i:nth-child(2) { top: .5rem; right: .6rem; }
+.function-play-sparkles i:nth-child(3) { bottom: .4rem; right: .6rem; }
+@media (prefers-reduced-motion: no-preference) {
+  .function-play-zone.is-noticed { animation: function-zone-welcome .8s ease-out both; }
+  .function-play-zone.is-noticed button, .function-play-zone.is-noticed input[type="range"] {
+    animation: function-control-pop .65s .2s both, function-control-breathe 5s 2s infinite;
+  }
+  .function-play-zone.is-noticed button::after { animation: function-shimmer 5s .45s infinite; }
+  .function-play-zone.is-noticed .function-play-sparkles i { animation: function-sparkle 1.3s .65s both, function-sparkle 6s 3s infinite; }
+  .function-play-zone.is-noticed .function-play-sparkles i:nth-child(2) { animation-delay: .8s, 3.4s; }
+  .function-play-zone.is-noticed .function-play-sparkles i:nth-child(3) { animation-delay: 1s, 3.8s; }
+}
+@keyframes function-zone-welcome { 35% { box-shadow: inset 0 0 0 4px #fffaf0, inset 0 0 0 5px #d5b47b66, 0 0 22px #daa84b77; } }
+@keyframes function-control-pop { 0%,100% { scale: 1; } 45% { scale: 1.045; } }
+@keyframes function-control-breathe { 0%,100% { scale: 1; } 50% { scale: 1.012; } }
+@keyframes function-shimmer { 0% { transform: translateX(-150%); } 22%,100% { transform: translateX(150%); } }
+@keyframes function-sparkle { 0%,100% { opacity: .35; scale: .8; } 45% { opacity: 1; scale: 1.25; } }
+.function-play-zone[data-function="phere"] button { position: absolute; }

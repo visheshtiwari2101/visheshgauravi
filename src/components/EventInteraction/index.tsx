@@ -37,6 +37,7 @@ export default function EventInteraction({ scene, turmeric, onTurmeric, onReact 
   scene: SceneType; turmeric: number; onTurmeric: (value: number) => void; onReact: () => void;
 }) {
   const reduce = useReducedMotion();
+  const [noticed, setNoticed] = useState(false);
   const [excuse, setExcuse] = useState(-1);
   const [teacher, setTeacher] = useState<"uncle" | "aunty" | null>(null);
   const [busy, setBusy] = useState(false);
@@ -67,7 +68,10 @@ export default function EventInteraction({ scene, turmeric, onTurmeric, onReact 
   const reveal = { initial: { opacity: reduce ? 1 : 0, y: reduce ? 0 : 4 }, animate: { opacity: 1, y: 0 }, transition };
   const changeRound = (value: number) => { setRound((value + 7) % 7); setRevision(n => n + 1); };
 
-  return <div className="mt-5 border-t border-wedding-border/70 pt-4 text-center text-sm text-wedding-text md:text-left">
+  return <motion.div className={`function-play-zone text-center text-sm text-wedding-text md:text-left ${noticed ? "is-noticed" : ""}`}
+    data-function={scene} viewport={{ once: true, amount: .2 }} onViewportEnter={() => setNoticed(true)}>
+    <div className="function-play-label">{({ puja: "TAP & FIND OUT ✨", haldi: "YOUR TURN 👀", engagement: "A LITTLE RING TEST ✨", baraat: "SHAADI SIDE QUEST 👀", reception: "PLAN YOUR PLATE ✨", phere: "TAKE A SPIN ✨" } as Partial<Record<SceneType, string>>)[scene]}</div>
+    <span className="function-play-sparkles" aria-hidden="true"><i>✦</i><i>✧</i><i>✦</i></span>
     {scene === "puja" && <>
       <p className="mb-3 leading-relaxed">Just in case you’re late for Ganesh Pujan… we’ve got your excuse covered. 👀</p>
       <button type="button" disabled={busy} className={`${button} w-full`} onClick={generateExcuse}>{excuse < 0 ? "Generate My Excuse" : "Get Me a Better Excuse ↻"}</button>
@@ -80,6 +84,7 @@ export default function EventInteraction({ scene, turmeric, onTurmeric, onReact 
       </div>
     </>}
     {scene === "haldi" && <>
+      <p className="function-play-cue">Drag to add Haldi →</p>
       <label htmlFor="turmeric-threat" className="block font-display text-lg text-wedding-primary">Turmeric Threat Level · {turmeric}%</label>
       <input id="turmeric-threat" type="range" min="0" max="100" value={turmeric} onInput={event => onTurmeric(Number(event.currentTarget.value))}
         aria-valuetext={`${turmeric}% — ${turmeric === 0 ? "Spotless" : turmeric === 100 ? "Complete yellow apocalypse courtesy of the friends" : "The turmeric is spreading"}`}
@@ -129,6 +134,7 @@ export default function EventInteraction({ scene, turmeric, onTurmeric, onReact 
       <div aria-live="polite" className="mt-3 min-h-16"><motion.p key={step} {...reveal} className="leading-relaxed">{steps[step]}</motion.p></div>
     </>}
     {scene === "phere" && <>
+      <p className="function-play-cue">Tap a round ✨</p>
       <p className="font-display text-lg text-wedding-primary">The Seven Rounds Vow Tracker</p>
       <div className="mt-2 flex flex-col items-center gap-2 sm:flex-row sm:gap-4">
         <div className="relative h-44 w-44 shrink-0 touch-pan-y select-none" aria-label="Choose a wedding round"
@@ -145,7 +151,7 @@ export default function EventInteraction({ scene, turmeric, onTurmeric, onReact 
         <div aria-live="polite" className="min-h-32 flex-1 text-center sm:text-left"><motion.div key={round} {...reveal}><p className="mb-1 font-bold text-wedding-primary">Round {round + 1} — {vows[round]![0]}</p><p className="leading-relaxed">{vows[round]![1]}</p></motion.div></div>
       </div>
     </>}
-  </div>;
+  </motion.div>;
 }
 
 function FingerChoice({ finger }: { finger: "index" | "ring" }) {
