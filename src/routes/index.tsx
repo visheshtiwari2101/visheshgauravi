@@ -66,11 +66,21 @@ export const Route = createFileRoute("/")({
 function Index() {
   const [entered, setEntered] = useState(false);
 
+  const resetEntryScroll = () => window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+  const enterFromTop = () => {
+    // Remove an old section anchor without adding a history entry or changing router state.
+    if (window.location.hash) {
+      window.history.replaceState(window.history.state, "", window.location.pathname + window.location.search);
+    }
+    resetEntryScroll();
+    setEntered(true);
+  };
+
   return (
     <>
       <WeddingBackground />
-      <AnimatePresence>
-        {!entered && <StartScreen onEnter={() => setEntered(true)} />}
+      <AnimatePresence onExitComplete={resetEntryScroll}>
+        {!entered && <StartScreen onEnter={enterFromTop} />}
       </AnimatePresence>
 
       <a

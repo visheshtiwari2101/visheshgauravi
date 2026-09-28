@@ -520,3 +520,19 @@ button.wedding-gateway.wedding-gateway {
 }
 #trivia button:not(:disabled) span { color: #fff8e7; }
 #trivia button[aria-pressed="true"] { outline: 2px solid #d4ac61; outline-offset: 3px; }
+
+/* Footer contact details are quiet text links, independent of the CTA treatment. */
+.wedding-contact-text {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .3rem;
+  padding-block: .25rem;
+  color: var(--wedding-primary);
+  font-size: clamp(.68rem, 2.8vw, .8125rem);
+  line-height: 1.5;
+  white-space: nowrap;
+  text-underline-offset: 3px;
+}
+.wedding-contact-text svg { width: 13px; height: 13px; flex-shrink: 0; }
+.wedding-contact-text:hover { text-decoration: underline; }

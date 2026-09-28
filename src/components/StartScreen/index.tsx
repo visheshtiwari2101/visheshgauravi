@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { ganpatiArt, weddingConfig } from "@/config/config";
 import startScreenAsset from "@/assets/characters/start-screen.png";
@@ -10,6 +10,12 @@ import WeddingBackground from "@/components/WeddingBackground";
 export default function StartScreen({ onEnter }: { onEnter: () => void }) {
   const reduce = useReducedMotion();
   const [celebrating, setCelebrating] = useState(false);
+
+  useEffect(() => {
+    const previous = window.history.scrollRestoration;
+    window.history.scrollRestoration = "manual";
+    return () => { window.history.scrollRestoration = previous; };
+  }, []);
 
   const handleEnter = () => {
     if (celebrating) return;
