@@ -90,7 +90,7 @@ export default function Hero() {
         href="#countdown"
         className="group mt-10 inline-flex flex-col items-center gap-2 text-wedding-text/70"
       >
-        <span className="rounded-full border border-wedding-border bg-wedding-surface px-6 py-2.5 text-sm font-semibold text-wedding-primary transition-colors group-hover:bg-wedding-primary group-hover:text-primary-foreground">
+        <span className="wedding-cta-surface rounded-full border border-wedding-border bg-wedding-surface px-6 py-2.5 text-sm font-semibold text-wedding-primary transition-colors group-hover:bg-wedding-primary group-hover:text-primary-foreground">
           Come see the plan
         </span>
         <motion.span

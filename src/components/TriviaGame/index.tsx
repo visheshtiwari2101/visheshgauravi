@@ -70,27 +70,6 @@ function getInitialOrder(): number[] {
   return order;
 }
 
-function AnimatedPercent({ value }: { value: number }) {
-  const [display, setDisplay] = useState(0);
-
-  useEffect(() => {
-    let raf = 0;
-    const start = performance.now();
-    const duration = 700;
-    const tick = (now: number) => {
-      const progress = Math.min((now - start) / duration, 1);
-      setDisplay(Math.round(progress * value));
-      if (progress < 1) {
-        raf = requestAnimationFrame(tick);
-      }
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [value]);
-
-  return <span>{display}%</span>;
-}
-
 export default function TriviaGame() {
   const reduce = useReducedMotion();
   const [index, setIndex] = useState(0);
@@ -99,6 +78,8 @@ export default function TriviaGame() {
   const [results, setResults] = useState<Record<string, Result>>({});
   const [status, setStatus] = useState<Status>("idle");
   const mounted = useRef(true);
+  const pendingVotes = useRef(new Set<string>());
+  const currentQuestion = useRef("");
 
   useEffect(() => {
     mounted.current = true;
@@ -110,6 +91,7 @@ export default function TriviaGame() {
   }, []);
 
   const question = QUESTIONS[order[index] ?? 0]!;
+  currentQuestion.current = question.id;
   const answer = answers[question.id];
   const result = results[question.id];
   const isLast = index === QUESTIONS.length - 1;
@@ -120,18 +102,14 @@ export default function TriviaGame() {
       setStatus("idle");
       return;
     }
-    const cached = results[question.id];
-    if (cached) {
-      setStatus("revealed");
-      return;
-    }
     setStatus("sending");
+    // The vote request owns its post-submission refresh; do not race it with a pre-vote tally.
+    if (pendingVotes.current.has(question.id)) return;
     let active = true;
     void fetchTally(question.id).then((tally) => {
       if (!active) return;
-      setResults((prev) =>
-        prev[question.id] ? prev : { ...prev, [question.id]: { tally: tally ?? { vishesh: 0, gauravi: 0 } } },
-      );
+      if (!tally) { setStatus("error"); return; }
+      setResults((prev) => ({ ...prev, [question.id]: { tally } }));
       setStatus("revealed");
     });
     return () => {
@@ -148,6 +126,8 @@ export default function TriviaGame() {
   const vote = useCallback(
     async (choice: Choice) => {
       if (answers[question.id] || status === "sending") return;
+      if (pendingVotes.current.has(question.id)) return;
+      pendingVotes.current.add(question.id);
       const next = { ...answers, [question.id]: choice };
       setAnswers(next);
       try {
@@ -160,18 +140,24 @@ export default function TriviaGame() {
       try {
         await submitVote(question.id, choice);
       } catch {
-        if (!mounted.current) return;
+        pendingVotes.current.delete(question.id);
+        if (!mounted.current || currentQuestion.current !== question.id) return;
         setStatus("error");
         return;
       }
 
       const tally = await fetchTally(question.id);
+      pendingVotes.current.delete(question.id);
       if (!mounted.current) return;
+      if (!tally) {
+        if (currentQuestion.current === question.id) setStatus("error");
+        return;
+      }
       setResults((prev) => ({
         ...prev,
-        [question.id]: { tally: tally ?? { vishesh: 0, gauravi: 0 } },
+        [question.id]: { tally },
       }));
-      setStatus("revealed");
+      if (currentQuestion.current === question.id) setStatus("revealed");
     },
     [answers, question.id, status],
   );
@@ -260,11 +246,11 @@ export default function TriviaGame() {
                 })}
               </div>
 
-              <AnimatePresence mode="wait">
+              <AnimatePresence mode="sync" initial={false}>
                 {answer && (
                   <motion.div
-                    key={status}
-                    initial={{ opacity: 0, y: 12 }}
+                    key={question.id}
+                    initial={false}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -8 }}
                     transition={{ duration: 0.35 }}
@@ -320,7 +306,7 @@ export default function TriviaGame() {
                                 <motion.div
                                   initial={{ width: 0 }}
                                   animate={{ width: `${pct}%` }}
-                                  transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                                  transition={{ duration: reduce ? 0 : 0.2, ease: [0.22, 1, 0.36, 1] }}
                                   className={
                                     name === "Vishesh"
                                       ? "h-full rounded-full bg-wedding-primary"
@@ -338,7 +324,7 @@ export default function TriviaGame() {
                       {index > 0 && (
                         <button
                           type="button"
-                          onClick={() => setIndex((i) => Math.max(i - 1, 0))}
+                          onClick={() => { setStatus("sending"); setIndex((i) => Math.max(i - 1, 0)); }}
                           className="rounded-full border border-wedding-border px-5 py-2.5 text-sm font-semibold text-wedding-primary"
                         >
                           ← Previous
@@ -352,7 +338,7 @@ export default function TriviaGame() {
                       ) : (
                         <button
                           type="button"
-                          onClick={() => setIndex((i) => Math.min(i + 1, QUESTIONS.length - 1))}
+                          onClick={() => { setStatus("sending"); setIndex((i) => Math.min(i + 1, QUESTIONS.length - 1)); }}
                           className="inline-flex items-center gap-2 rounded-full bg-wedding-primary px-6 py-3 text-sm font-bold text-primary-foreground shadow-[var(--shadow-lift)] transition-transform hover:scale-[1.03]"
                         >
                           Next

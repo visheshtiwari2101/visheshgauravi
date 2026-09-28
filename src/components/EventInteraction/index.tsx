@@ -51,12 +51,12 @@ export default function EventInteraction({ scene, turmeric, onTurmeric, onReact 
     pending.current = true;
     setBusy(true);
     setMessage(Math.floor(Math.random() * analysing.length));
-    timers.current = [setTimeout(() => setMessage(n => (n + 1) % analysing.length), 500), setTimeout(() => {
+    timers.current = [setTimeout(() => setMessage(n => (n + 1) % analysing.length), 350), setTimeout(() => {
       setExcuse(previous => next(excuses.length, previous));
       setRevision(n => n + 1);
       setBusy(false);
       pending.current = false;
-    }, 1050)];
+    }, 700)];
   };
   const [answer, setAnswer] = useState<"index" | "ring" | null>(null);
   const [step, setStep] = useState(0);

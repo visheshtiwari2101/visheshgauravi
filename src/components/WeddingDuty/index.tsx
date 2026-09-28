@@ -69,8 +69,8 @@ export default function WeddingDuty() {
     setStage("analysis");
     setMessage(messages[0]!);
     timers.current = [
-      setTimeout(() => setMessage(messages[1]!), 800),
-      setTimeout(() => setMessage(messages[2]!), 1600),
+      setTimeout(() => setMessage(messages[1]!), 350),
+      setTimeout(() => setMessage(messages[2]!), 700),
       setTimeout(() => {
         const pick = Math.floor(Math.random() * (roles.length - (selected === null ? 0 : 1)));
         setSelected(selected !== null && pick >= selected ? pick + 1 : pick);
@@ -79,7 +79,7 @@ export default function WeddingDuty() {
         setReveal(n => n + 1);
         setStage("result");
         busy.current = false;
-      }, 2400),
+      }, 1000),
     ];
   }
 

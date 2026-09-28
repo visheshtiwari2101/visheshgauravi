@@ -87,7 +87,7 @@ export default function StartScreen({ onEnter }: { onEnter: () => void }) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.4 }}
         whileTap={{ scale: 0.97 }}
-        className="mt-7 inline-flex max-w-[92vw] items-center justify-center gap-2 rounded-full bg-wedding-primary px-7 py-3.5 text-sm font-bold text-primary-foreground shadow-[var(--shadow-lift)] transition-transform hover:scale-[1.03] sm:text-base"
+        className="wedding-gateway mt-7 inline-flex max-w-[92vw] items-center justify-center gap-2 rounded-full bg-wedding-primary px-7 py-3.5 text-sm font-bold text-primary-foreground shadow-[var(--shadow-lift)] transition-transform hover:scale-[1.03] sm:text-base"
       >
         Gaurgeous Things Await
       </motion.button>

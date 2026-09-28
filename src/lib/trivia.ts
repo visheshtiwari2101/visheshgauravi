@@ -39,7 +39,7 @@ export async function fetchTally(questionId: string): Promise<Tally | null> {
   if (!endpoint) return null;
   try {
     const url = `${endpoint}?type=trivia&action=results&questionId=${encodeURIComponent(questionId)}`;
-    const res = await fetch(url, { method: "GET" });
+    const res = await fetch(url, { method: "GET", cache: "no-store" });
     if (!res.ok) return null;
     const raw: unknown = await res.json();
     const data = (raw && typeof raw === "object" ? raw : {}) as Record<string, unknown>;
